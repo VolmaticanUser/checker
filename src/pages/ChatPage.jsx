@@ -22,7 +22,6 @@ function ChatPage() {
     useEffect(() => {
         (async function cool() {
             const test = await sendChatRequest(fullChat);
-            console.log(test.choices[0].message)
             addMessage(test.choices[0].message);
         })();
     }, [])
@@ -36,7 +35,6 @@ function ChatPage() {
             if (userInput !== "") {
                 addMessage({ role: 'user', content: userInput });
                 const test = await sendChatRequest([...fullChat, { role: 'user', content: userInput }]);
-                console.log(test.choices[0].message)
                 addMessage(test.choices[0].message);
             } else {
                 alert("Input cannot be empty thank you (❁´◡`❁)")
