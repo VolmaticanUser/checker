@@ -2,12 +2,6 @@ import { useState } from "react";
 
 
 const AllData = () => {
-
-    // {
-    //     "role": "system",
-    //     "content": ""
-    // }
-
     const test = {
         "role":"system",
         "content":`## Project Overview Brief
@@ -127,7 +121,7 @@ const AllData = () => {
 
     const [fullChat, setFullChat] = useState(initialArrOfPrompts);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     function addMessage(message) {
         setFullChat((current) => [...current, message]);
