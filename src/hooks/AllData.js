@@ -121,7 +121,7 @@ const AllData = () => {
 
     const [fullChat, setFullChat] = useState(initialArrOfPrompts);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     function addMessage(message) {
         setFullChat((current) => [...current, message]);
