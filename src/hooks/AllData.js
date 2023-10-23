@@ -127,11 +127,9 @@ const AllData = () => {
 
     function addMessage(message) {
         if (message.content.includes("Project Overview")) {
-            alert("This is the final message....!!!!");
-            console.log(message.content);
             const convertedContentToHTML = mdToHTML(message.content);
             makePDF(convertedContentToHTML);
-            setFullChat((current) => [...current, { role: 'assistant', content: "I have provided the information, and your system must've detected it. That is cool. You go girl" }])
+            setFullChat((current) => [...current, { role: 'assistant', content: "I have provided the information, and your system must've downloaded it as pdf." }])
         } else {
             setFullChat((current) => [...current, message]);
         }
