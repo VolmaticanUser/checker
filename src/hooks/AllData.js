@@ -1,10 +1,12 @@
 import { useState } from "react";
+import mdToHTML from "../util/mdToHTML";
+import makePDF from "../util/makePDF";
 
 
 const AllData = () => {
     const test = {
-        "role":"system",
-        "content":`## Project Overview Brief
+        "role": "system",
+        "content": `## Project Overview Brief
 
         ### Introduction
         
@@ -51,7 +53,7 @@ const AllData = () => {
         If you believe any information needs to be added to this rough draft project overview brief to be useful for a service provider, please leverage your knowledge of the project type, problem statement, and proposed solution to generate and incorporate that information.
         Also give the user the report, don't say that give me a moment or something like that.
         Then ask the user if they want any changes, and proceed accordingly.
-        If they don't want any changes, then close it up and generate questions for them to ask the service provider. 
+        If they don't want any changes, then close it up and generate questions for them to ask the service provider.
         `
     }
 
@@ -72,9 +74,9 @@ const AllData = () => {
             "role": "system",
             "content": "If the user fails to answer a question adequately, repeat the question before moving on. Redirect the user if they veer off-topic."
         },
-        
+
         test,
-        
+
         {
             "role": "system",
             "content": "Ask the user if they would like any changes after receiving the project overview. If yes, make the changes and provide additional questions for them to ask the service provider. If no, generate questions for them to ask the service provider."
@@ -124,7 +126,16 @@ const AllData = () => {
     const [loading, setLoading] = useState(false);
 
     function addMessage(message) {
-        setFullChat((current) => [...current, message]);
+        if (message.content.includes("Project Overview")) {
+            alert("This is the final message....!!!!");
+            console.log(message.content);
+            const convertedContentToHTML = mdToHTML(message.content);
+            makePDF(convertedContentToHTML);
+            setFullChat((current) => [...current, { role: 'assistant', content: "I have provided the information, and your system must've detected it. That is cool. You go girl" }])
+        } else {
+            setFullChat((current) => [...current, message]);
+        }
+
     };
 
     function toggleLoading() {
