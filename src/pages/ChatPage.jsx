@@ -64,12 +64,12 @@ function ChatPage() {
 
 
     return (
-        <div className="flex flex-col items-center justify-center w-screen min-h-screen fancyBackground bg-no-repeat bg-cover text-gray-800 p-10">
-            <div className="flex flex-col flex-grow w-full max-w-xl bg-[#799496] shadow-xl rounded-lg overflow-hidden">
-                <div className="flex flex-col flex-grow h-0 p-4 overflow-auto" ref={messageWindow}>
+        <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-no-repeat bg-cover text-gray-800 p-10 fancyBackground">
+            <div className="flex flex-col flex-grow w-full max-w-xl chatContainer shadow-xl rounded-lg overflow-hidden">
+                <div className="flex flex-col justify-end flex-grow h-0 p-4 overflow-auto" ref={messageWindow}>
                     {ChatElement}
                 </div>
-                <div className="bg-gray-300 p-4">
+                <div className="bg-gray-300 p-4 inputContainer">
                     {loading && <Loader />}
                     <form onSubmit={(e) => formFunction(e)}>
                         <input ref={textFieldRef} className="flex items-center h-10 w-full rounded px-3 text-sm" value={userInput} onChange={(e) => setUserInput(e.target.value)} type="text" placeholder="Type your message…" disabled={loading} />

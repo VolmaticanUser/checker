@@ -119,8 +119,6 @@ const AllData = () => {
         },
     ];
 
-
-
     const [fullChat, setFullChat] = useState(initialArrOfPrompts);
 
     const [loading, setLoading] = useState(false);

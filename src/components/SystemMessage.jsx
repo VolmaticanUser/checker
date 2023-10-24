@@ -5,7 +5,7 @@ function SystemMessage({ message }) {
     
     return (
         <div className="systemMessage">
-            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-[#007BA7] center"></div>
+            <div className="systemMessage_logo"></div>
             <div>
                 <div className="systemMessage_box">
                     {/* <p className="text-sm">{message}</p> */}
