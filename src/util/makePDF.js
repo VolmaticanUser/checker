@@ -1,6 +1,6 @@
 import htmlToPdfmake from "html-to-pdfmake";
 import pdfmake from 'pdfmake/build/pdfmake';
-import pdfFont from 'pdfmake/build/vfs_fonts'
+import * as pdfFont from 'pdfmake/build/vfs_fonts';
 
 
 function makePDF(html) {
