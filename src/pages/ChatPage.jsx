@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import SystemMessage from '../components/SystemMessage'
 import UserMessage from '../components/UserMessage'
 import UseData from '../hooks/UseData'
-import sendChatRequest from '../util/openAiChat';
 import Loader from '../components/Loader';
+import axios from 'axios';
 function ChatPage() {
     const { fullChat, addMessage, loading, toggleLoading } = UseData();
     const [userInput, setUserInput] = useState("");
@@ -21,10 +21,12 @@ function ChatPage() {
 
     useEffect(() => {
         (async function cool() {
-            const test = await sendChatRequest(fullChat);
-            addMessage(test.choices[0].message);
+            const { data } = await axios.post("http://localhost:5100/sendChat", {
+                prompts: fullChat
+            })
+            addMessage(data[0].message);
         })();
-    }, [])
+    }, []);
 
 
 
@@ -34,8 +36,10 @@ function ChatPage() {
         try {
             if (userInput !== "") {
                 addMessage({ role: 'user', content: userInput });
-                const test = await sendChatRequest([...fullChat, { role: 'user', content: userInput }]);
-                addMessage(test.choices[0].message);
+                const { data } = await axios.post("http://localhost:5100/sendChat", {
+                    prompts: [...fullChat, { role: 'user', content: userInput }]
+                })
+                addMessage(data[0].message);
             } else {
                 alert("Input cannot be empty thank you (❁´◡`❁)")
             }
