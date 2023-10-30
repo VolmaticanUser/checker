@@ -10,6 +10,9 @@ function ChatPage() {
     const textFieldRef = useRef(null);
     const messageWindow = useRef(null)
 
+    const URL = "http://localhost:5100/sendChat";
+
+    const token =`Bearer ${localStorage.getItem('token')}`
 
 
     useEffect(() => {
@@ -21,14 +24,15 @@ function ChatPage() {
 
     useEffect(() => {
         (async function cool() {
-            const { data } = await axios.post("http://localhost:5100/sendChat", {
-                prompts: fullChat
-            })
+            const { data } = await axios.post(URL,{prompts: fullChat}, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                }
+            },)
             addMessage(data[0].message);
         })();
     }, []);
-
-
 
     async function formFunction(e) {
         e.preventDefault();
@@ -41,7 +45,7 @@ function ChatPage() {
                 })
                 addMessage(data[0].message);
             } else {
-                alert("Input cannot be empty thank you (❁´◡`❁)")
+                alert("Input cannot be empty thank you (❁´◡`❁)");
             }
         } catch (error) {
             console.log(error);

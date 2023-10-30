@@ -8,7 +8,7 @@ const test = {
     
     ### Project Overview
     
-    The project overview will be structured with ## and ### headings, providing detailed insights into every question and answer provided by the user. This document aims to save service providers time by building much of the final document for them.
+    The project overview will be structured with ## and ### headings, providing detailed but short insights into every question and answer provided by the user. This document aims to save service providers time by building much of the final document for them.
     
     ### Milestones
     
@@ -41,11 +41,14 @@ const test = {
     ### Recommendations
     
     The project overview brief does not include suggestions for specific vendors or service providers. Instead, it serves as a comprehensive guide for service providers to assess the project's suitability for their skills.
+
+    ### Greetings
+
+    Greet the user with this "Hello! I hope you're doing well. I'm here to help you create a project overview brief for your project. Are you ready to answer some questions about your project?"
     
     ### Additional Information
     
     If you believe any information needs to be added to this rough draft project overview brief to be useful for a service provider, please leverage your knowledge of the project type, problem statement, and proposed solution to generate and incorporate that information.
-    Also give the user the report, don't say that give me a moment or something like that.
     Then ask the user if they want any changes, and proceed accordingly.
     If they don't want any changes, then close it up and generate questions for them to ask the service provider.
     `
@@ -113,6 +116,3 @@ export const initialArrOfPrompts = [
     },
 ];
 
-
-
-initialArrOfPrompts;

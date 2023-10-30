@@ -7,22 +7,36 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import ErrorPage from './pages/ErrorPAge.jsx';
+import IsAuthenticated from './components/IsAuthenticated.jsx';
+import IsPublic from './components/IsPublic.jsx';
 
 
 const router = createBrowserRouter([
+  // Private routes
   {
     path: '/',
-    element: <App />,
-    errorElement: <ErrorPage />
+    element: <IsAuthenticated />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <App /> }
+    ]
   },
+  // Public routes
   {
-    path: '/login',
-    element: <Login />
-  },
-  {
-    path: '/signup',
-    element: <Signup />
-  },
+    path: '/',
+    element: <IsPublic />,
+    children: [
+      {
+        path: '/login',
+        element: <Login />
+      },
+      {
+        path: '/signup',
+        element: <Signup />
+      },
+    ]
+  }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
