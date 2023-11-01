@@ -123,7 +123,7 @@ const AllData = () => {
 
     const [fullChat, setFullChat] = useState(initialArrOfPrompts);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState((false));
 
     function addMessage(message) {
         if (message.content.includes("Project Overview")) {
@@ -137,7 +137,7 @@ const AllData = () => {
     };
 
     function toggleLoading() {
-        setLoading((current) => !current)
+        setLoading((current) =>  {return !current});
     }
 
     return {

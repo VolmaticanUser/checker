@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useNavigation } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import useData from '../hooks/UseData';
 import axios from 'axios';
 
 function Login() {
+
+
+    // const URL = "http://localhost:5100";
+    const URL = "https://checker-backend.umar30.repl.co";
+
 
     const { loading, toggleLoading } = useData();
     const [email, setEmail] = useState("")
@@ -14,25 +19,23 @@ function Login() {
         e.preventDefault();
         try {
             toggleLoading();
-            const { data } = await axios.post("http://localhost:5100/login", {
+            const { data } = await axios.post(`${URL}/login`, {
                 email,
                 password
             });
             localStorage.setItem('token', data.token);
-            console.log(localStorage.getItem('token'));
             toggleLoading();
             navigate("/");
-            console.log(data);
         } catch (error) {
-            console.log("🚀 ~ file: Login.jsx:22 ~ getToken ~ error:", error);
-
+            console.log(error);
+            toggleLoading();
         }
     }
 
     return (
-        <div className="bg-gray-50 dark:bg-gray-700">
+        <div className="bg-gray-50 dark:bg-[#3A606E]">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <Link to="/login" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                <Link to="/login" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-[#D9F0FF]">
                     {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/> */}
                     Project Mosaia
                 </Link>
@@ -62,9 +65,10 @@ function Login() {
                                 <Link to="/pass" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
                             </div> */}
                             <button disabled={loading} type="submit" onClick={(e) => getToken(e)} className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                            <button type="button" onClick={() => console.log(loading)} className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                            {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don't have an account yet? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
-                            </p>
+                            </p> */}
                         </form>
                     </div>
                 </div>

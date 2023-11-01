@@ -4,52 +4,82 @@ import UserMessage from '../components/UserMessage'
 import UseData from '../hooks/UseData'
 import Loader from '../components/Loader';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 function ChatPage() {
     const { fullChat, addMessage, loading, toggleLoading } = UseData();
     const [userInput, setUserInput] = useState("");
     const textFieldRef = useRef(null);
-    const messageWindow = useRef(null)
+    const messageWindow = useRef(null);
 
-    const URL = "http://localhost:5100/sendChat";
+    // const URL = "http://localhost:5100";
+    const URL = "https://checker-backend.umar30.repl.co";
 
-    const token =`Bearer ${localStorage.getItem('token')}`
+    const token = `Bearer ${localStorage.getItem('token')}`
+
+    const navigate = useNavigate();
 
 
+
+    // This function is used if token is tampered with. It logs out the user.
+    const tokenTamper = (error) => {
+        if (error.response.status === 401 || error.response.status === 403) {
+            localStorage.removeItem('token');
+            console.log(loading)
+            navigate('/login');
+        }
+    }
+
+
+    // UseEffect to focus cursor on textbox.
     useEffect(() => {
         if (!loading) {
-            textFieldRef.current.focus()
+            textFieldRef.current.focus();
         }
         messageWindow.current.scrollTop = messageWindow.current.scrollHeight;
     }, [loading]);
 
+    // UseEffect for sending data to server on first load, also logs out user if token is tampered with and deletes the token
     useEffect(() => {
         (async function cool() {
-            const { data } = await axios.post(URL,{prompts: fullChat}, {
-                headers: {
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                }
-            },)
-            addMessage(data[0].message);
+            try {
+                const { data } = await axios.post(`${URL}/sendChat`, { prompts: fullChat }, {
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    }
+                },)
+                addMessage(data[0].message);
+            } catch (error) {
+                // toggleLoading();
+                tokenTamper(error);
+            }
         })();
     }, []);
 
+
+    // Function on form submittion
     async function formFunction(e) {
         e.preventDefault();
         toggleLoading();
         try {
             if (userInput !== "") {
                 addMessage({ role: 'user', content: userInput });
-                const { data } = await axios.post("http://localhost:5100/sendChat", {
+                const { data } = await axios.post(`${URL}/sendChat`, {
                     prompts: [...fullChat, { role: 'user', content: userInput }]
-                })
+                }, {
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    }
+                },)
                 addMessage(data[0].message);
             } else {
                 alert("Input cannot be empty thank you (❁´◡`❁)");
             }
         } catch (error) {
-            console.log(error);
+            tokenTamper(error);
         }
+        console.log("IDK MAN, just work")
         toggleLoading();
         setUserInput("");
 
@@ -59,6 +89,7 @@ function ChatPage() {
 
 
 
+    // Render all the chats in the chatbox using this
     const ChatElement = fullChat.map((value, index) => {
         return (
             <React.Fragment key={index}>
